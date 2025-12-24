@@ -1,6 +1,5 @@
 package com.olivedevs.order.dtos;
 
-import com.olivedevs.order.models.OrderItem;
 import com.olivedevs.order.models.OrderStatus;
 import lombok.*;
 import lombok.NonNull;
@@ -19,7 +18,7 @@ public class GetOrderResponse {
 
     @NonNull
     String customerId;
-    List<OrderItem> products;
+    List<OrderItemResponse> products;
     private String orderId;
     private BigDecimal totalAmount;
     private OrderStatus status;

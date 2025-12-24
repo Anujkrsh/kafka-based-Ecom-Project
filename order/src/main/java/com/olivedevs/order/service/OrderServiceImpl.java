@@ -3,6 +3,7 @@ package com.olivedevs.order.service;
 import com.olivedevs.order.dtos.CreateOrderRequest;
 import com.olivedevs.order.dtos.CreateOrderResponse;
 import com.olivedevs.order.dtos.GetOrderResponse;
+import com.olivedevs.order.dtos.OrderItemResponse;
 import com.olivedevs.order.models.Order;
 import com.olivedevs.order.models.OrderItem;
 import com.olivedevs.order.models.OrderStatus;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -57,9 +59,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public GetOrderResponse getOrderById(String orderId) {
-        Order order = orderRepository.findById(orderId).orElseThrow();
-
-        return new GetOrderResponse(order.getCustomerId(), order.getItems(), order.getOrderId(),order.getTotalAmount(),order.getStatus(),order.getCreatedAt());
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
+        List<OrderItemResponse> orderItems = order.getItems().
+                stream()
+                .map(item-> new OrderItemResponse(item.getId(),item.getProductId(), item.getQuantity(), item.getPrice()))
+                .toList();
+        return new GetOrderResponse(order.getCustomerId(),orderItems, order.getOrderId(),order.getTotalAmount(),order.getStatus(),order.getCreatedAt());
     }
 }
 
