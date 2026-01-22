@@ -1,6 +1,6 @@
 spring:
   application:
-      name: order
+    name: order
   datasource:
     url: jdbc:postgresql://localhost:5432/OrdersKafka
     username: postgres
@@ -9,10 +9,15 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-server:
-  port: 8082
   kafka:
     bootstrap-servers: localhost:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 3
+      enable-idempotence: true
+      properties:
+        spring.json.type.mapping: orderCreatedEvent:com.olivedevs.order.dtos.OrderCreatedEvent
+server:
+  port: 8082
