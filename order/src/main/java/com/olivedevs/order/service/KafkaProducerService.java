@@ -21,7 +21,7 @@ public class KafkaProducerService {
                     if (ex == null) {
                         log.info("Event published successfully for orderId: {}", event.getOrderId());
                     } else {
-                        log.error("Failed to publish event for orderId: {}", event.getOrderId(), ex);
+                        log.error("Failed to publish dtos for orderId: {}", event.getOrderId(), ex);
                     }
                 });
     }
