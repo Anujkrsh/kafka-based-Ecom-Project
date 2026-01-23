@@ -1,2 +1,6 @@
 /order/.idea/
 /order/target/
+/order/.mvn/
+.gitignore
+/Notification-Service/.idea/
+/Notification-Service/target/

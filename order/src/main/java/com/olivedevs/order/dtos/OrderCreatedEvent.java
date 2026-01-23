@@ -1,6 +1,7 @@
 package com.olivedevs.order.dtos;
 
 import com.olivedevs.order.events.OrderItemEvent;
+import com.olivedevs.order.models.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +19,7 @@ public class OrderCreatedEvent {
     private String orderId;
     private String customerId;
     private BigDecimal totalAmount;
-    private String status;
+    private OrderStatus status;;
     private Instant createdAt;
     private List<OrderItemEvent> items;
 }

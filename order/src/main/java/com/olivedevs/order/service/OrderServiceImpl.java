@@ -1,9 +1,7 @@
 package com.olivedevs.order.service;
 
-import com.olivedevs.order.dtos.CreateOrderRequest;
-import com.olivedevs.order.dtos.CreateOrderResponse;
-import com.olivedevs.order.dtos.GetOrderResponse;
-import com.olivedevs.order.dtos.OrderItemResponse;
+import com.olivedevs.order.dtos.*;
+import com.olivedevs.order.events.OrderItemEvent;
 import com.olivedevs.order.models.Order;
 import com.olivedevs.order.models.OrderItem;
 import com.olivedevs.order.models.OrderStatus;
@@ -19,9 +17,11 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
+    private final KafkaProducerService kafkaProducerService;
 
-    public OrderServiceImpl(OrderRepository orderRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository,KafkaProducerService kafkaProducerService) {
         this.orderRepository = orderRepository;
+        this.kafkaProducerService = kafkaProducerService;
     }
 
     @Transactional
@@ -54,6 +54,18 @@ public class OrderServiceImpl implements OrderService {
         order.setTotalAmount(total);
 
          orderRepository.save(order);
+        OrderCreatedEvent event = OrderCreatedEvent.builder().orderId(order.getOrderId())
+                .customerId(order.getCustomerId()).totalAmount(order.getTotalAmount())
+                .status(order.getStatus()).createdAt(order.getCreatedAt())
+                .items(order.getItems().stream()
+                        .map(item -> new OrderItemEvent(
+                                item.getProductId(),
+                                item.getQuantity(),
+                                item.getPrice()))
+                        .toList())
+                .build();
+
+        kafkaProducerService.publishOrderCreatedEvent(event);
          return new CreateOrderResponse(order.getOrderId(), order.getStatus(),total);
     }
 
