@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: Payment-Service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/OrdersKafka
+    username: postgres
+    password: anuj1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8089
