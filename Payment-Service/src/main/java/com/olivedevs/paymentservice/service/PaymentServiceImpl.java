@@ -20,11 +20,11 @@ public class PaymentServiceImpl implements PaymentService {
 
     private PaymentRepository paymentRepository;
     private final Random random = new Random();
-    private final KafkaTemplate<String, PaymentSuccessEvent> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     @Override
     public void processPayment(OrderCreatedEvent request){
-
+        log.info("Payment Request Recieved");
         Payment payment = Payment.builder().orderId(request.getOrderId())
               .customerId(request.getCustomerId()).amount(request.getTotalAmount())
               .status(PaymentStatus.PENDING).paymentMethod("Credit_Card").transactionId("")
