@@ -11,8 +11,12 @@ spring:
     show-sql: true
   kafka:
     producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
-        spring.json.type.mapping: PaymentEvent:PaymentEvent
+        spring.json.type.mapping: OrderCreatedEvent:OrderCreatedEvent,PaymentEvent:PaymentEvent
+
 
 server:
   port: 8089

@@ -17,7 +17,7 @@ import org.springframework.kafka.support.serializer.ToStringSerializer;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
+/*@Configuration*/
 public class KafkaProducerConfig {
 
 /*    @Bean
@@ -26,7 +26,7 @@ public class KafkaProducerConfig {
                 .partitions(3)
                 .replicas(1)
                 .build();
-    }*/
+    }
     @Bean
     public ProducerFactory<String,OrderCreatedEvent> producerFactory(){
         Map<String, Object> props = new HashMap<>();
@@ -44,5 +44,5 @@ public class KafkaProducerConfig {
     public KafkaTemplate<String, OrderCreatedEvent> kafkaTemplate() {
         // Configure and return KafkaTemplate bean
         return new KafkaTemplate<>(producerFactory());
-    }
+    }*/
 }

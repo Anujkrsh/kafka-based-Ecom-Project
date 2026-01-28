@@ -20,10 +20,10 @@ import org.springframework.util.backoff.FixedBackOff;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
-@EnableKafka
+/*@Configuration
+@EnableKafka*/
 public class KafkaConsumerConfig {
-
+/*
     @Bean
     public ConsumerFactory<String, Object> consumerFactory() {
         JsonDeserializer<Object> deserializer = new JsonDeserializer<>(Object.class);
@@ -69,5 +69,5 @@ public class KafkaConsumerConfig {
 
         factory.setCommonErrorHandler(errorHandler);
         return factory;
-    }
+    }*/
 }

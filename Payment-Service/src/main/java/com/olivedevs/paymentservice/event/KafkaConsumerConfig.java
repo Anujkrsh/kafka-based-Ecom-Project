@@ -21,11 +21,11 @@ import org.springframework.util.backoff.FixedBackOff;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
+/*@Configuration
 @EnableKafka
-@Slf4j
+@Slf4j*/
 public class KafkaConsumerConfig {
-
+/*
     @Bean
     public NewTopic createPaymentSuccessTopic() {
         return TopicBuilder.name("payment-success")
@@ -75,5 +75,5 @@ public class KafkaConsumerConfig {
 
         factory.setCommonErrorHandler(errorHandler);
         return factory;
-    }
+    }*/
 }

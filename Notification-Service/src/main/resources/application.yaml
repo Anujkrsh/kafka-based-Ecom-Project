@@ -2,15 +2,17 @@ spring:
   application:
     name: Notification-Service
   kafka:
-    bootstrap-servers: localhost:9092
     consumer:
+      bootstrap-servers: localhost:9092
       group-id: notification-group
-      auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
+        spring.json.use.type.headers: true
         spring.json.trusted.packages: "*"
-        spring.json.type.mapping: orderCreatedEvent:com.olivedevs.notificationservice.dtos.OrderCreatedEvent
+        spring.json.type.mapping: >
+          PaymentEvent:com.olivedevs.notificationservice.dtos.PaymentEvent,
+          OrderCreatedEvent:com.olivedevs.notificationservice.dtos.OrderCreatedEvent
 
 server:
   port: 8083
