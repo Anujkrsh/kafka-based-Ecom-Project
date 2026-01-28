@@ -1,7 +1,7 @@
 package com.olivedevs.paymentservice.service;
 
 import com.olivedevs.paymentservice.dtos.OrderCreatedEvent;
-import com.olivedevs.paymentservice.dtos.PaymentSuccessEvent;
+import com.olivedevs.paymentservice.dtos.PaymentEvent;
 import com.olivedevs.paymentservice.model.Payment;
 import com.olivedevs.paymentservice.model.PaymentStatus;
 import com.olivedevs.paymentservice.repo.PaymentRepository;
@@ -24,7 +24,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void processPayment(OrderCreatedEvent request){
-        log.info("Payment Request Recieved");
+        log.info("Payment Request Received");
         Payment payment = Payment.builder().orderId(request.getOrderId())
               .customerId(request.getCustomerId()).amount(request.getTotalAmount())
               .status(PaymentStatus.PENDING).paymentMethod("Credit_Card").transactionId("")
@@ -51,7 +51,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         paymentRepository.save(payment);
 
-        PaymentSuccessEvent paymentEvent = PaymentSuccessEvent.builder()
+        PaymentEvent paymentEvent = PaymentEvent.builder()
                 .orderId(request.getOrderId())
                 .paymentId(payment.getId())
                 .customerId(request.getCustomerId())
@@ -60,7 +60,7 @@ public class PaymentServiceImpl implements PaymentService {
                 .build();
 
 
-        String topic = "payment-" + paymentEvent.getStatus().toString();
+        String topic = payment.getStatus() == PaymentStatus.SUCCESS ? "payment-success" : "payment-failed";
         kafkaTemplate.send(topic, request.getOrderId(), paymentEvent);
 
         log.info("Payment {} for order: {} - Published to {}",

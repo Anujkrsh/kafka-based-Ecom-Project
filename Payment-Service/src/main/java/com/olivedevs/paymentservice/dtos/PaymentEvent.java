@@ -2,10 +2,7 @@ package com.olivedevs.paymentservice.dtos;
 
 
 import com.olivedevs.paymentservice.model.PaymentStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -13,7 +10,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PaymentSuccessEvent {
+@Getter
+@Setter
+public class PaymentEvent {
 
     private String orderId;
     private String customerId;

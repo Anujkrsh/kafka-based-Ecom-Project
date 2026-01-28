@@ -26,13 +26,21 @@ import java.util.Map;
 @Slf4j
 public class KafkaConsumerConfig {
 
-/*    @Bean
-    public NewTopic createOrderTopic() {
-        return TopicBuilder.name("payment-status")
+    @Bean
+    public NewTopic createPaymentSuccessTopic() {
+        return TopicBuilder.name("payment-success")
                 .partitions(3)
                 .replicas(1)
                 .build();
-    }*/
+    }
+
+    @Bean
+    public NewTopic createPaymentFailedTopic() {
+        return TopicBuilder.name("payment-failed")
+                .partitions(3)
+                .replicas(1)
+                .build();
+    }
     @Bean
     public ConsumerFactory<String,OrderCreatedEvent> consumerFactory(){
         JsonDeserializer<OrderCreatedEvent> deserializer = new JsonDeserializer<>(OrderCreatedEvent.class);
