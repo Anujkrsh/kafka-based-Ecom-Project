@@ -9,6 +9,10 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  kafka:
+    producer:
+      properties:
+        spring.json.type.mapping: PaymentEvent:PaymentEvent
 
 server:
   port: 8089
