@@ -19,7 +19,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void paymentSuccessService(PaymentEvent paymentEvent) {
-        log.info("Payment success event received: {}", paymentEvent.getPaymentId());
+        log.info("Payment success event for order id: {} payment id: {}",paymentEvent.getOrderId(), paymentEvent.getPaymentId());
         List<Notifications> notificationsList = repository.findByCustomerId(paymentEvent.getCustomerId());
          notificationsList.forEach(
                 notifications-> {
@@ -30,7 +30,7 @@ public class PaymentServiceImpl implements PaymentService {
                     repository.save(notifications);
                 });
 
-         log.info("Payment success event processed for payment id: {}", paymentEvent.getPaymentId());
+         log.info("Payment success event processed for order id: {} payment id: {}",paymentEvent.getOrderId(), paymentEvent.getPaymentId());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class PaymentServiceImpl implements PaymentService {
                     repository.save(notifications);
                 });
 
-        log.info("Payment failed event processed for payment id: {}", paymentEvent.getPaymentId());
+        log.info("Payment failed event processed for order id: {} payment id: {}",paymentEvent.getOrderId(), paymentEvent.getPaymentId());
     }
 
 

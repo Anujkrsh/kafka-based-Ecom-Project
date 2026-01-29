@@ -2,6 +2,7 @@ package com.olivedevs.paymentservice.service;
 
 import com.olivedevs.paymentservice.dtos.OrderCreatedEvent;
 import com.olivedevs.paymentservice.dtos.PaymentEvent;
+import com.olivedevs.paymentservice.event.PaymentEventProducer;
 import com.olivedevs.paymentservice.model.Payment;
 import com.olivedevs.paymentservice.model.PaymentStatus;
 import com.olivedevs.paymentservice.repo.PaymentRepository;
@@ -20,7 +21,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private PaymentRepository paymentRepository;
     private final Random random = new Random();
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final PaymentEventProducer paymentEventProducer;
 
     @Override
     public void processPayment(OrderCreatedEvent request){
@@ -61,7 +62,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 
         String topic = payment.getStatus() == PaymentStatus.SUCCESS ? "payment-success" : "payment-failed";
-        kafkaTemplate.send(topic, request.getOrderId(), paymentEvent);
+        paymentEventProducer.sendPaymentEvent(topic, request.getOrderId(), paymentEvent);
 
         log.info("Payment {} for order: {} - Published to {}",
                 paymentSuccess ? "succeeded" : "failed",

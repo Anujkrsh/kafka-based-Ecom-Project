@@ -10,12 +10,22 @@ spring:
       ddl-auto: update
     show-sql: true
   kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: payment-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.use.type.headers: true
+        spring.json.type.mapping: >
+          OrderCreatedEvent:com.olivedevs.paymentservice.dtos.OrderCreatedEvent
     producer:
       bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
-        spring.json.type.mapping: OrderCreatedEvent:OrderCreatedEvent,PaymentEvent:PaymentEvent
+        spring.json.type.mapping: PaymentEvent:com.olivedevs.paymentservice.dtos.PaymentEvent
 
 
 server:

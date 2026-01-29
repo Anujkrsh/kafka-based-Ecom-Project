@@ -18,6 +18,6 @@ spring:
       retries: 3
       enable-idempotence: true
       properties:
-        spring.json.type.mapping: orderCreatedEvent:com.olivedevs.order.dtos.OrderCreatedEvent
+        spring.json.type.mapping: OrderCreatedEvent:com.olivedevs.order.dtos.OrderCreatedEvent
 server:
   port: 8082
