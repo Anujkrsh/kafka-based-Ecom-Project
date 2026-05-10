@@ -22,6 +22,7 @@ import java.util.Map;
 
 /*@Configuration
 @EnableKafka*/
+//Deprecated. marked for removal moved to properties based config will remove this
 public class KafkaConsumerConfig {
 /*
     @Bean
