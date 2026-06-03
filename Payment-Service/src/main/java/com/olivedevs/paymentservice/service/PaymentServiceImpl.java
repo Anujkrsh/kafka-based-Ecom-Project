@@ -26,6 +26,11 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void processPayment(OrderCreatedEvent request){
         log.info("Payment Request Received");
+        if (paymentRepository.findByCustomerId(request.getCustomerId()).isPresent()) {
+            log.info("Skipping duplicate payment event for customer: {}", request.getCustomerId());
+            return;
+        }
+
         Payment payment = Payment.builder().orderId(request.getOrderId())
               .customerId(request.getCustomerId()).amount(request.getTotalAmount())
               .status(PaymentStatus.PENDING).paymentMethod("Credit_Card").transactionId("")
