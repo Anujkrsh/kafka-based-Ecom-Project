@@ -1,6 +1,6 @@
 # Kafka-based E-commerce Microservices
 
-A distributed e-commerce system built with Spring Boot and Apache Kafka demonstrating event-driven architecture.
+A distributed E-commerce system built with Spring Boot and Apache Kafka demonstrating event-driven architecture.
 
 ⚠️ **Work in Progress** - This project is actively being developed and enhanced.
 

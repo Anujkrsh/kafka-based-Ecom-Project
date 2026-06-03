@@ -12,7 +12,10 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 public class OrderItemEvent {
+
     private String productId;
+
     private Integer quantity;
+
     private BigDecimal price;
 }
